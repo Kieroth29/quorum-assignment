@@ -9,8 +9,9 @@
 
 ## Front-end
 
-- Install "pnpm" globally using `pnpm install -g`
+- Install "pnpm" globally using `npm install -g pnpm`
 - Navigate to the "frontend" folder.
 - Install project dependencies using `pnpm install`
+- Create a .env file from the provided example running the following command: `cp .env.example .env`
 - Run the frontend: `pnpm dev`
 - The interface will be available by default at http://localhost:3000, but the port may change depending on availability. This will be informed on the console.
