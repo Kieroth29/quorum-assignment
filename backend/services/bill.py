@@ -2,7 +2,7 @@ from typing import List
 
 from schemas.bill import Bill, BillFileData
 from schemas.legislator import LegislatorFileData
-from schemas.votes import VoteResult, VoteTypeEnum
+from schemas.votes import Vote, VoteResult, VoteTypeEnum
 from services.legislation import LegislationService
 from utils.data import import_data
 
@@ -15,13 +15,16 @@ class BillService(LegislationService):
         legislators_data: List[LegislatorFileData] = data['legislators']
         bills_data: List[BillFileData] = data['bills']
         bills: List[Bill] = []
+        votes: List[Vote] = data['votes']
 
         for bill in bills_data:
             primary_sponsor = next((
                 legislator.name.split(' (')[0] for legislator in legislators_data if legislator.id == bill.sponsor_id), None)
+            
+            bill_vote = next(vote for vote in votes if vote.bill_id == bill.id)
 
             bill_vote_results: List[VoteResult] = [
-                result for result in data['vote_results'] if result.vote_id == bill.id]
+                result for result in data['vote_results'] if result.vote_id == bill_vote.id]
 
             supporters = len(
                 [result for result in bill_vote_results if result.vote_type == VoteTypeEnum.SUPPORT])
